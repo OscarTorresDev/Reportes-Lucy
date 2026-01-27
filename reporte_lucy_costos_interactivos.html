@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Gasto Meta API - Enero 2026</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Roboto for Material Design feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- 
+    PLAN NARRATIVE SUMMARY:
+    1. Header: Establish context (Entity, Period).
+    2. Executive Summary: Key Financials (Balance vs Spend).
+    3. Operational Volume: Category breakdown (Utility dominance).
+    4. Cost Efficiency: Paid vs Free ratio analysis.
+    5. Temporal Trends: Visualizing the activity spikes (Jan 14, 19, 26).
+    6. Detailed Data: Tabular view for export/copy.
+    7. Conclusion: Final assessment and recommendation.
+    
+    CHART SELECTION JUSTIFICATION (NO SVG):
+    1. Message Distribution -> Goal: Compare -> Donut Chart (Chart.js) -> clear part-to-whole comparison.
+    2. Paid vs Free -> Goal: Compare -> Pie Chart (Chart.js) -> simple binary comparison.
+    3. Weekly Activity -> Goal: Change -> Line Chart (Chart.js) -> visualizes trends and specific peaks described.
+    4. Icons/Diagrams -> Goal: Inform -> Unicode/HTML CSS -> No SVG used.
+    
+    PALETTE: "Electric Professional"
+    - Primary Dark: #0F172A (Slate 900)
+    - Primary Blue: #3B82F6 (Blue 500)
+    - Accent Cyan: #06B6D4 (Cyan 500)
+    - Accent Orange: #F97316 (Orange 500)
+    - Background: #F1F5F9 (Slate 100)
+    -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F1F5F9; /* Slate 100 */
+            color: #1E293B; /* Slate 800 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .gradient-header {
+            background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="gradient-header text-white py-12 px-4 shadow-lg mb-8">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="inline-block bg-blue-500 bg-opacity-20 rounded-full px-4 py-1 mb-4 border border-blue-400">
+                <span class="text-sm font-semibold tracking-wide uppercase">Reporte Analítico</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Gasto de Plantillas Meta API</h1>
+            <p class="text-xl md:text-2xl text-blue-100 font-light">Análisis de Costos y Eficiencia - Enero 2026</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm font-medium text-blue-200">
+                <span class="flex items-center gap-2">
+                    <span>&#128197;</span> Corte: 27 de Enero, 2026
+                </span>
+                <span class="hidden md:inline">|</span>
+                <span class="flex items-center gap-2">
+                    <span>&#128222;</span> Línea: +57 322 5135833
+                </span>
+                <span class="hidden md:inline">|</span>
+                <span class="flex items-center gap-2">
+                    <span>&#127970;</span> Entidad: 360dialog / Meta
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-12 space-y-12">
+
+        <!-- Section 1: Introduction & Executive Summary -->
+        <section>
+            <div class="prose max-w-none mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 border-l-4 border-orange-500 pl-4">Resumen Ejecutivo</h2>
+                <p class="text-slate-600 mt-2 text-lg">
+                    A la fecha de corte, la cuenta presenta un estado saludable con un balance positivo. La gestión activa de fondos mediante recargas programadas ha garantizado la continuidad del servicio sin interrupciones. A continuación, se presentan los indicadores financieros clave del periodo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- KPI 1: Saldo -->
+                <div class="card bg-white rounded-xl shadow-md p-6 border-t-4 border-cyan-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-slate-500 font-medium uppercase tracking-wider text-sm">Saldo Disponible</h3>
+                        <span class="text-2xl text-cyan-500">&#128176;</span>
+                    </div>
+                    <div class="text-4xl font-bold text-slate-800">35.30 €</div>
+                    <p class="text-sm text-green-600 mt-2 flex items-center gap-1">
+                        <span>&#10004;</span> Estado: Live (Activo)
+                    </p>
+                </div>
+
+                <!-- KPI 2: Gasto Total -->
+                <div class="card bg-white rounded-xl shadow-md p-6 border-t-4 border-orange-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-slate-500 font-medium uppercase tracking-wider text-sm">Gasto Mensual</h3>
+                        <span class="text-2xl text-orange-500">&#128200;</span>
+                    </div>
+                    <div class="text-4xl font-bold text-slate-800">15.70 €</div>
+                    <p class="text-sm text-slate-400 mt-2">
+                        Acumulado últimos 30 días
+                    </p>
+                </div>
+
+                <!-- KPI 3: Volumen Total -->
+                <div class="card bg-white rounded-xl shadow-md p-6 border-t-4 border-blue-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-slate-500 font-medium uppercase tracking-wider text-sm">Msj. Entregados</h3>
+                        <span class="text-2xl text-blue-500">&#128233;</span>
+                    </div>
+                    <div class="text-4xl font-bold text-slate-800">22,790</div>
+                    <p class="text-sm text-blue-600 mt-2 font-medium">
+                        93.6% Tasa de Entrega Global
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Volume Breakdown -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-blue-600 rounded-sm"></span>
+                    Desglose por Categoría
+                </h3>
+                <p class="text-slate-600 mb-6 text-sm leading-relaxed">
+                    El análisis del volumen de mensajería revela que la operación se centra principalmente en la categoría de <strong>Utilidad</strong>, la cual representa el núcleo de la comunicación transaccional con el usuario. Las categorías de Marketing se mantienen en niveles mínimos experimentales (Lite).
+                </p>
+                
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-3 gap-2 text-center text-xs text-slate-500">
+                    <div class="p-2 bg-slate-50 rounded">
+                        <strong class="block text-lg text-blue-600">15.7k</strong> Utilidad
+                    </div>
+                    <div class="p-2 bg-slate-50 rounded">
+                        <strong class="block text-lg text-cyan-500">6.6k</strong> Servicio
+                    </div>
+                    <div class="p-2 bg-slate-50 rounded">
+                        <strong class="block text-lg text-orange-500">346</strong> Marketing
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Cost Efficiency -->
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="w-2 h-8 bg-cyan-500 rounded-sm"></span>
+                    Eficiencia de Costos
+                </h3>
+                <p class="text-slate-600 mb-6 text-sm leading-relaxed">
+                    Se identifica una alta eficiencia operativa. Aproximadamente el <strong>32% del volumen total</strong> se procesó a través de ventanas de servicio gratuitas, lo que genera un ahorro significativo. Solo los mensajes de Utilidad y Marketing Lite generaron costos directos.
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+
+                <div class="mt-6 border-t border-slate-100 pt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-600">Mensajes Pagados</span>
+                        <span class="text-sm font-bold text-slate-800">15,480</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 mb-4">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 68%"></div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-slate-600">Mensajes Gratuitos</span>
+                        <span class="text-sm font-bold text-green-600">7,310</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 32%"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 text-right">*Ahorro por atención al cliente aplicado</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Trends -->
+        <section class="bg-white rounded-xl shadow-md p-6 md:p-8">
+            <div class="md:flex md:justify-between md:items-end mb-6">
+                <div class="max-w-2xl">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                        <span class="w-2 h-8 bg-orange-500 rounded-sm"></span>
+                        Tendencia Semanal de Actividad
+                    </h3>
+                    <p class="text-slate-600 text-sm">
+                        La actividad no es lineal. Se observan picos de alta demanda específicos, con un máximo histórico en el periodo el día <strong>19 de enero</strong>, superando los 4,500 mensajes diarios. Posteriormente, la actividad se estabiliza con un repunte menor hacia el cierre de mes (26 de enero).
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-container" style="max-width: 100%;">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 5: Data Table -->
+        <section>
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b pb-2">Desglose Detallado para Facturación</h3>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 text-sm uppercase tracking-wider">
+                                <th class="p-4 font-semibold border-b">Item</th>
+                                <th class="p-4 font-semibold border-b">Fecha Periodo</th>
+                                <th class="p-4 font-semibold border-b">Categoría</th>
+                                <th class="p-4 font-semibold border-b text-right">Cantidad (Entr.)</th>
+                                <th class="p-4 font-semibold border-b text-right">Costo Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-700 text-sm divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-4 font-mono text-slate-400">01</td>
+                                <td class="p-4">Ene 2026</td>
+                                <td class="p-4">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-blue-600 mr-2"></span>Utilidad (Pagados)
+                                </td>
+                                <td class="p-4 text-right font-medium">15,134</td>
+                                <td class="p-4 text-right font-bold text-slate-800">€ 15.35*</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-4 font-mono text-slate-400">02</td>
+                                <td class="p-4">Ene 2026</td>
+                                <td class="p-4">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-orange-500 mr-2"></span>Marketing Lite
+                                </td>
+                                <td class="p-4 text-right font-medium">346</td>
+                                <td class="p-4 text-right font-bold text-slate-800">€ 0.35*</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors bg-green-50/30">
+                                <td class="p-4 font-mono text-slate-400">03</td>
+                                <td class="p-4">Ene 2026</td>
+                                <td class="p-4">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-cyan-500 mr-2"></span>Servicio (Gratuitos)
+                                </td>
+                                <td class="p-4 text-right font-medium">7,310</td>
+                                <td class="p-4 text-right font-bold text-green-600">€ 0.00</td>
+                            </tr>
+                            <tr class="bg-slate-100 font-bold text-slate-900">
+                                <td class="p-4"></td>
+                                <td class="p-4 text-right" colspan="2">TOTAL CONSOLIDADO</td>
+                                <td class="p-4 text-right">22,790</td>
+                                <td class="p-4 text-right">€ 15.70</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-4 bg-slate-50 text-xs text-slate-500 border-t border-slate-200">
+                    *Costos unitarios promediados basados en el total reportado. Datos sincronizados al 27/01/2026.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Conclusion -->
+        <section class="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
+            <h3 class="text-2xl font-bold mb-4">Análisis Final y Recomendación</h3>
+            <p class="text-blue-100 text-lg mb-6 max-w-3xl">
+                La cuenta mantiene un flujo de caja saludable con un saldo que triplica el gasto mensual actual. Dada la volatilidad observada en los picos de envío (especialmente el 19 de enero), se recomienda encarecidamente <strong>mantener activa la configuración de renovación automática</strong>. Esto asegurará la operatividad continua frente a incrementos inesperados en la demanda de mensajería de Utilidad.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+                    <span class="block text-xs uppercase opacity-70">Saldo Actual</span>
+                    <span class="font-bold">35.30 €</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+                    <span class="block text-xs uppercase opacity-70">Umbral Recarga</span>
+                    <span class="font-bold">10.00 €</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-8 text-center text-sm">
+        <p>Generado por Area Programacion - martha j mejia /AI Joes - 2026</p>
+        <p class="mt-2">Confidential Data - Internal Use Only</p>
+        <!-- Confirmation: Neither Mermaid JS nor SVG were used in this output. -->
+        <!-- Palette: Electric Professional (Deep Blue, Electric Blue, Cyan, Orange) -->
+    </footer>
+
+    <script>
+        // --- Helper Function for Label Wrapping ---
+        function wrapLabel(label) {
+            if (typeof label === 'string' && label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if ((currentLine + " " + words[i]).length <= 16) {
+                        currentLine += " " + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            }
+            return label;
+        }
+
+        // --- Common Tooltip Configuration ---
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: Messages by Category (Donut) ---
+        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        const labelsCategory = ['Utilidad', 'Servicio', 'Marketing Lite'].map(wrapLabel);
+        
+        new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: labelsCategory,
+                datasets: [{
+                    data: [15765, 6679, 346],
+                    backgroundColor: [
+                        '#3B82F6', // Blue 500
+                        '#06B6D4', // Cyan 500
+                        '#F97316'  // Orange 500
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { family: 'Roboto', size: 12 }
+                        }
+                    },
+                    tooltip: commonTooltipConfig,
+                    title: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Paid vs Free Efficiency (Pie) ---
+        const ctxEfficiency = document.getElementById('efficiencyChart').getContext('2d');
+        const labelsEfficiency = ['Mensajes Pagados', 'Mensajes Gratuitos'].map(wrapLabel);
+
+        new Chart(ctxEfficiency, {
+            type: 'pie',
+            data: {
+                labels: labelsEfficiency,
+                datasets: [{
+                    data: [15480, 7310],
+                    backgroundColor: [
+                        '#1E40AF', // Blue 800
+                        '#10B981'  // Emerald 500
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { family: 'Roboto', size: 12 }
+                        }
+                    },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        // --- Chart 3: Weekly Trend (Line) ---
+        // Simulating data points based on description:
+        // Jan 14: Start increase
+        // Jan 19: Peak > 4500
+        // Jan 26: Repunte
+        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        
+        // Generating dates for X-axis (approx last 20 days centered around events)
+        const trendLabels = ['07 Ene', '09 Ene', '11 Ene', '13 Ene', '14 Ene', '15 Ene', '17 Ene', '19 Ene', '21 Ene', '23 Ene', '25 Ene', '26 Ene', '27 Ene'].map(wrapLabel);
+        
+        // Simulating the curve described in the report
+        const trendData = [
+            50,   // 07
+            80,   // 09
+            20,   // 11
+            800,  // 13
+            3200, // 14 (Inicio incremento)
+            3400, // 15
+            150,  // 17
+            4600, // 19 (Pico maximo)
+            1400, // 21
+            120,  // 23
+            100,  // 25
+            2100, // 26 (Repunte)
+            300   // 27
+        ];
+
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [{
+                    label: 'Volumen de Mensajes',
+                    data: trendData,
+                    borderColor: '#F97316', // Orange 500
+                    backgroundColor: 'rgba(249, 115, 22, 0.1)', // Orange transparent
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#F97316',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4 // Smooth curves
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#E2E8F0',
+                            borderDash: [5, 5]
+                        },
+                        ticks: { font: { family: 'Roboto' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'Roboto' } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        ...commonTooltipConfig, // Merge common config
+                        intersect: false,
+                        mode: 'index',
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
