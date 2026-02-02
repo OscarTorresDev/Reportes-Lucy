@@ -7,315 +7,195 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- 
-    Palette Selection: Vibrant/Energetic Blue
-    Primary: #2563EB (Royal Blue)
-    Secondary: #06B6D4 (Cyan)
-    Accent: #F472B6 (Pink/Magenta for Marketing)
-    Background: #F3F4F6 (Light Gray)
-    Text: #1F2937 (Dark Gray)
-    -->
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #F3F4F6;
         }
-        .chart-container {
+        /* Corrección de contenedores para evitar que los gráficos desaparezcan o se desborden */
+        .chart-wrapper {
             position: relative;
+            height: 300px;
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 400px;
-        }
-        @media (max-width: 640px) {
-            .chart-container {
-                height: 300px;
-            }
         }
         .card {
             background-color: white;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .pulse-green {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(16, 185, 129, 0.4); }
+            100% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
         }
     </style>
-    <!-- 
-    Plan Narrative & Structure Summary:
-    1. Header: Focused on January 2026.
-    2. Executive Summary: KPI adjusted to Jan 1st payment. Mentions Feb 1st payment as a separate operational start.
-    3. Financial Deep Dive: Shows Jan composition.
-    4. Operational Analysis: Volume breakdown by category.
-    5. Balance & Transitions: Explanation of the Feb 1st payment and carry-over balance.
-    6. Detailed Data: Updated table.
-    7. NO SVG, NO MERMAID used.
-    -->
 </head>
 <body class="text-gray-800">
 
-    <!-- Header Section -->
+    <!-- Header -->
     <header class="bg-gradient-to-r from-blue-700 to-cyan-500 text-white p-8 shadow-lg">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-                <div>
-                    <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-2">REPORTE DE ENERO</h1>
-                    <p class="text-blue-100 text-lg font-medium">Consolidado de Gasto y Transición a Febrero</p>
-                </div>
-                <div class="mt-4 md:mt-0 text-right bg-white/10 p-4 rounded-lg backdrop-blur-sm">
-                    <p class="text-sm font-light uppercase tracking-wider">Estado Financiero</p>
-                    <p class="text-2xl font-bold">Cierre de Enero - 2026</p>
-                    <p class="text-xs opacity-80">+57 322 5135833 | 360dialog</p>
-                </div>
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+                <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-2">REPORTE DE ENERO</h1>
+                <p class="text-blue-100 text-lg font-medium">Consolidado de Gasto y Transición a Febrero</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-right bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                <p class="text-sm font-light uppercase tracking-wider">Estado Financiero</p>
+                <p class="text-2xl font-bold">Cierre de Enero - 2026</p>
+                <p class="text-xs opacity-80">+57 322 5135833</p>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
 
-        <!-- Section 1: Introduction & KPIs -->
-        <section>
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-blue-800 border-l-4 border-cyan-500 pl-4">Resumen de Inversión: Enero</h2>
-                <p class="mt-2 text-gray-600 max-w-3xl">
-                    Este reporte consolida los costos de **Enero 2026**, incluyendo la mensualidad pagada el **1 de enero**. Se informa adicionalmente que el pago de **49 EUR** realizado hoy (**1 de febrero**) asegura el inicio de actividades del nuevo mes, manteniendo además un saldo positivo remanente de enero.
-                </p>
+        <!-- KPIs Principales -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="card p-6 border-t-4 border-blue-600">
+                <p class="text-sm font-semibold text-gray-500 uppercase">Inversión Enero</p>
+                <p class="text-4xl font-black text-blue-700 mt-2">€67.64</p>
+                <p class="text-xs text-blue-500 mt-2 font-bold">Inc. Mensualidad 01/01</p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- KPI 1 -->
-                <div class="card p-6 border-t-4 border-blue-600">
-                    <p class="text-sm font-semibold text-gray-500 uppercase">Inversión Enero</p>
-                    <p class="text-4xl font-black text-blue-700 mt-2">€67.64</p>
-                    <p class="text-xs text-blue-500 mt-2 font-bold">
-                        Inc. Pago Mensual 01/01
-                    </p>
-                </div>
-                <!-- KPI 2 -->
-                <div class="card p-6 border-t-4 border-cyan-500">
-                    <p class="text-sm font-semibold text-gray-500 uppercase">Volumen Enero</p>
-                    <p class="text-4xl font-black text-cyan-600 mt-2">26,903</p>
-                    <p class="text-xs text-gray-400 mt-2">Total Mensajes Entregados</p>
-                </div>
-                <!-- KPI 3 -->
-                <div class="card p-6 border-t-4 border-orange-500">
-                    <p class="text-sm font-semibold text-gray-500 uppercase">Prepago Feb.</p>
-                    <p class="text-4xl font-black text-orange-600 mt-2">€49.00</p>
-                    <p class="text-xs text-gray-400 mt-2">Pagado 01/02 (Hosting)</p>
-                </div>
-                <!-- KPI 4 -->
-                <div class="card p-6 border-t-4 border-emerald-500">
-                    <p class="text-sm font-semibold text-gray-500 uppercase">Saldo Ene.</p>
-                    <p class="text-4xl font-black text-emerald-600 mt-2">Disponible</p>
-                    <p class="text-xs text-gray-400 mt-2">Para uso en Febrero</p>
-                </div>
+            <div class="card p-6 border-t-4 border-emerald-500 pulse-green">
+                <p class="text-sm font-semibold text-gray-500 uppercase">Saldo en Cuenta</p>
+                <p class="text-4xl font-black text-emerald-600 mt-2">32.35 €</p>
+                <p class="text-xs text-emerald-600 mt-2 font-bold uppercase">Disponible para Envíos</p>
+            </div>
+            <div class="card p-6 border-t-4 border-cyan-500">
+                <p class="text-sm font-semibold text-gray-500 uppercase">Volumen Enero</p>
+                <p class="text-4xl font-black text-cyan-600 mt-2">26,903</p>
+                <p class="text-xs text-gray-400 mt-2">Mensajes Totales</p>
+            </div>
+            <div class="card p-6 border-t-4 border-orange-500">
+                <p class="text-sm font-semibold text-gray-500 uppercase">Hosting Feb.</p>
+                <p class="text-4xl font-black text-orange-600 mt-2">€49.00</p>
+                <p class="text-xs text-gray-400 mt-2">Pagado 01/02</p>
             </div>
         </section>
 
-        <!-- Section 2: Financial Structure -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-1 flex flex-col justify-center">
-                <h2 class="text-2xl font-bold text-blue-800 border-l-4 border-cyan-500 pl-4 mb-4">Costos de Enero</h2>
-                <p class="text-gray-600 mb-4">
-                    La inversión de **€67.64** se ejecutó completamente en enero. Es fundamental notar que el **1 de enero** se cubrió la mensualidad de hosting de ese mes, sumándose al gasto variable de Meta acumulado por el tráfico de plantillas.
-                </p>
-                <div class="bg-green-50 p-4 rounded-lg border border-green-100">
-                    <h4 class="font-bold text-green-900 mb-2">Transición a Febrero</h4>
-                    <p class="text-sm text-green-800">
-                        El nuevo pago de hosting se realizó el <strong>1 de febrero</strong> por adelantado. Los fondos no consumidos de enero siguen disponibles para la mensajería de este nuevo ciclo.
-                    </p>
+        <!-- Gráficos -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card p-6">
+                <h3 class="font-bold text-gray-700 mb-4">Inversión Enero: Composición</h3>
+                <div class="chart-wrapper">
+                    <canvas id="costChart"></canvas>
                 </div>
+                <p class="text-xs text-center text-gray-400 mt-4 italic">Distribución entre Hosting y Consumo Variable de Meta</p>
             </div>
-            <div class="lg:col-span-2 card p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-gray-700">Composición de la Inversión de Enero</h3>
-                    <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">EUR (€)</span>
+            <div class="card p-6">
+                <h3 class="font-bold text-gray-700 mb-4">Mensajes por Categoría (Enero)</h3>
+                <div class="chart-wrapper">
+                    <canvas id="volumeChart"></canvas>
                 </div>
-                <div class="chart-container">
-                    <canvas id="costBreakdownChart"></canvas>
-                </div>
+                <p class="text-xs text-center text-gray-400 mt-4 italic">Volumen operativo entregado en el periodo</p>
             </div>
         </section>
 
-        <!-- Section 3: Operational Volume -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 card p-6 order-2 lg:order-1">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-gray-700">Tráfico Consolidado: Enero 2026</h3>
-                    <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">Cantidad</span>
-                </div>
-                <div class="chart-container" style="max-width: 100%;">
-                    <canvas id="categoryVolumeChart"></canvas>
-                </div>
+        <!-- Detalle de Tabla -->
+        <section class="card overflow-hidden">
+            <div class="bg-gray-50 px-6 py-4 border-b">
+                <h3 class="font-bold text-gray-700">Resumen Financiero y Disponibilidad</h3>
             </div>
-            <div class="lg:col-span-1 flex flex-col justify-center order-1 lg:order-2">
-                <h2 class="text-2xl font-bold text-blue-800 border-l-4 border-cyan-500 pl-4 mb-4">Operación del Mes</h2>
-                <p class="text-gray-600 mb-4">
-                    Durante enero, la categoría de **Utilidad** consumió la mayor parte del presupuesto variable, reflejando el envío masivo de plantillas operativas.
-                </p>
-                <div class="space-y-4">
-                    <div class="p-3 bg-white border border-gray-100 rounded shadow-sm">
-                        <p class="text-xs text-gray-400 uppercase">Mensajes Totales</p>
-                        <p class="text-xl font-bold text-blue-700">26,903</p>
-                    </div>
-                    <div class="p-3 bg-white border border-gray-100 rounded shadow-sm">
-                        <p class="text-xs text-gray-400 uppercase">Meta (Variable)</p>
-                        <p class="text-xl font-bold text-cyan-600">€ 18.64</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Detailed Table -->
-        <section>
-            <div class="card overflow-hidden">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h3 class="font-bold text-gray-700">Detalle de Gastos de Enero (Incluyendo Mensualidad 01/01)</h3>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm text-left">
-                        <thead class="bg-gray-100 text-gray-600 uppercase font-medium">
-                            <tr>
-                                <th class="px-6 py-3">Concepto</th>
-                                <th class="px-6 py-3">Fecha Pago</th>
-                                <th class="px-6 py-3 text-right">Cantidad</th>
-                                <th class="px-6 py-3 text-right">Costo Total</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <tr class="hover:bg-blue-50">
-                                <td class="px-6 py-4 font-bold text-gray-900">Mensualidad Hosting Enero</td>
-                                <td class="px-6 py-4">01 Ene 2026</td>
-                                <td class="px-6 py-4 text-right">1 Plan</td>
-                                <td class="px-6 py-4 text-right">€ 49.00</td>
-                            </tr>
-                            <tr class="hover:bg-blue-50">
-                                <td class="px-6 py-4 font-medium text-gray-900">Consumo Variable (Utility/Marketing)</td>
-                                <td class="px-6 py-4">Acum. Enero</td>
-                                <td class="px-6 py-4 text-right">18,566</td>
-                                <td class="px-6 py-4 text-right">€ 18.64</td>
-                            </tr>
-                            <tr class="hover:bg-blue-50">
-                                <td class="px-6 py-4 font-medium text-teal-600">Soporte/Servicio (Gratuito)</td>
-                                <td class="px-6 py-4">Enero</td>
-                                <td class="px-6 py-4 text-right">8,337</td>
-                                <td class="px-6 py-4 text-right">€ 0.00</td>
-                            </tr>
-                            <tr class="bg-blue-50 font-bold text-blue-900">
-                                <td class="px-6 py-4" colspan="3">INVERSIÓN TOTAL ENERO</td>
-                                <td class="px-6 py-4 text-right">€ 67.64</td>
-                            </tr>
-                            <tr class="bg-orange-50 text-orange-800 italic">
-                                <td class="px-6 py-4 font-bold" colspan="3">PREPAGO INICIAL FEBRERO (Hosting)</td>
-                                <td class="px-6 py-4 text-right font-bold">€ 49.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left">
+                    <thead class="bg-gray-100 text-gray-600 uppercase font-medium">
+                        <tr>
+                            <th class="px-6 py-3">Concepto</th>
+                            <th class="px-6 py-3">Fecha/Periodo</th>
+                            <th class="px-6 py-3 text-right">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 font-bold">Mensualidad Hosting Enero</td>
+                            <td class="px-6 py-4">01 Ene 2026</td>
+                            <td class="px-6 py-4 text-right font-medium">€ 49.00</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">Consumo Variable Meta (Plantillas)</td>
+                            <td class="px-6 py-4">Acumulado Enero</td>
+                            <td class="px-6 py-4 text-right font-medium">€ 18.64</td>
+                        </tr>
+                        <tr class="bg-blue-50">
+                            <td class="px-6 py-4 font-black text-blue-900" colspan="2">INVERSIÓN TOTAL ENERO</td>
+                            <td class="px-6 py-4 text-right font-black text-blue-900">€ 67.64</td>
+                        </tr>
+                        <tr class="bg-orange-50">
+                            <td class="px-6 py-4 font-bold text-orange-800 italic">Pago Hosting Febrero (Inicio Actividades)</td>
+                            <td class="px-6 py-4 text-orange-800 italic">01 Feb 2026</td>
+                            <td class="px-6 py-4 text-right font-bold text-orange-800 italic">€ 49.00</td>
+                        </tr>
+                        <tr class="bg-emerald-50">
+                            <td class="px-6 py-4 font-black text-emerald-900" colspan="2">SALDO DISPONIBLE PARA ENVÍOS (REMANENTE)</td>
+                            <td class="px-6 py-4 text-right font-black text-emerald-900">32.35 €</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
-        <!-- Footer / Conclusion -->
-        <footer class="mt-12 bg-white rounded-xl p-8 border-l-8 border-orange-500 shadow-md">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Estado de Saldo y Operación</h3>
-            <p class="text-gray-600 mb-4">
-                La inversión de enero está totalmente cubierta. El pago realizado hoy **01 de Febrero** por **€49.00** corresponde a la mensualidad de febrero para iniciar actividades. 
+        <!-- Footer -->
+        <footer class="bg-white rounded-xl p-8 border-l-8 border-emerald-500 shadow-md">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Conclusión Financiera</h3>
+            <p class="text-gray-600 mb-4 text-sm leading-relaxed">
+                Enero 2026 se encuentra liquidado. Se resalta que el pago de hoy 1 de febrero cubre la operatividad del sistema, mientras que el saldo actual de <strong>32.35 €</strong> garantiza que se puedan seguir enviando plantillas de Utility y Marketing sin interrupciones durante el inicio de este nuevo mes.
             </p>
-            <div class="bg-orange-100 text-orange-900 p-4 rounded-lg font-medium">
-                <strong>Nota:</strong> Existe un remanente de saldo de enero que sigue disponible para cubrir los envíos de plantillas (costo variable de Meta) durante los primeros días de febrero.
-            </div>
         </footer>
-
     </main>
 
     <script>
-        // --- UTILITY FUNCTIONS ---
-        function wrapLabel(label) {
-            if (typeof label !== 'string' || label.length <= 16) return label;
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = words[0];
-            for (let i = 1; i < words.length; i++) {
-                if ((currentLine + " " + words[i]).length <= 16) {
-                    currentLine += " " + words[i];
-                } else {
-                    lines.push(currentLine);
-                    currentLine = words[i];
+        window.onload = function() {
+            // Chart 1: Distribución Costos Enero
+            const costCtx = document.getElementById('costChart').getContext('2d');
+            new Chart(costCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Mensualidad Hosting', 'Variable Meta'],
+                    datasets: [{
+                        data: [49.00, 18.64],
+                        backgroundColor: ['#1d4ed8', '#06b6d4'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
                 }
-            }
-            lines.push(currentLine);
-            return lines;
-        }
+            });
 
-        const standardTooltipConfig = {
-            callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    if (Array.isArray(label)) return label.join(' ');
-                    return label;
+            // Chart 2: Volumen Enero
+            const volCtx = document.getElementById('volumeChart').getContext('2d');
+            new Chart(volCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Utilidad', 'Servicio', 'Marketing'],
+                    datasets: [{
+                        label: 'Mensajes Entregados',
+                        data: [18114, 8337, 452],
+                        backgroundColor: ['#2563eb', '#10b981', '#f472b6'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
                 }
-            }
+            });
         };
-
-        // --- CHART 1: Cost Breakdown (Enero) ---
-        const ctxCost = document.getElementById('costBreakdownChart').getContext('2d');
-        new Chart(ctxCost, {
-            type: 'doughnut',
-            data: {
-                labels: ['Mensualidad 01 Ene', 'Consumo Meta Ene'].map(wrapLabel),
-                datasets: [{
-                    data: [49.00, 18.64],
-                    backgroundColor: ['#2563EB', '#06B6D4'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom', labels: { padding: 20 } },
-                    tooltip: standardTooltipConfig
-                },
-                cutout: '70%'
-            }
-        });
-
-        // --- CHART 2: Volume by Category ---
-        const ctxVol = document.getElementById('categoryVolumeChart').getContext('2d');
-        new Chart(ctxVol, {
-            type: 'bar',
-            data: {
-                labels: ['Utilidad', 'Servicio', 'Marketing'].map(wrapLabel),
-                datasets: [{
-                    label: 'Mensajes',
-                    data: [18114, 8337, 452],
-                    backgroundColor: ['#2563EB', '#2DD4BF', '#F472B6'],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { grid: { display: false } }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: standardTooltipConfig
-                }
-            }
-        });
-
-        // --- Confirmación técnica de no uso de Mermaid o SVG ---
-        // Confirmación: No se ha utilizado ni Mermaid JS ni SVG en este archivo.
     </script>
 </body>
 </html>
